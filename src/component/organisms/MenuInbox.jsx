@@ -1,5 +1,5 @@
 import { Input } from 'antd';
-import React, { useLayoutEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import DrawerModal from '../molecules/DrawerModal';
 import { BiSearch } from 'react-icons/bi';
 import { getListChatAPI } from '../../services/api';
@@ -7,14 +7,22 @@ import CardChat from '../molecules/CardChat';
 
 export default function MenuInbox() {
 	const [isOpen, setIsOpen] = useState(false);
+	const [data, setData] = useState([]);
 
-	useLayoutEffect(() => {
-		// isOpen && getListChat();
-	});
+	useEffect(() => {
+		getListChat();
+	}, [isOpen]);
 
 	const getListChat = async () => {
-		const resp = await getListChatAPI();
-		console.log('RESPONSE +> ', resp);
+		try {
+			if (isOpen) {
+				const resp = await getListChatAPI();
+				setData(resp?.data);
+				console.log('RESPONSE +> ', resp);
+			}
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	return (
@@ -42,16 +50,19 @@ export default function MenuInbox() {
 						/>
 					</div>
 					<div className='list-chat-wrapper divide-y-2'>
-						<CardChat />
-						<CardChat />
-						<CardChat />
-						<CardChat />
-						<CardChat />
-						<CardChat />
-						<CardChat />
-						<CardChat />
-						<CardChat />
-						<CardChat />
+						{data.length > 0 ? (
+							data.map((item, idx) => (
+								<CardChat
+									title={item.owner.firstName}
+									body={item.message}
+									date={item.publishDate}
+									key={idx + 1}
+									img={item.owner.picture}
+								/>
+							))
+						) : (
+							<h1>Loading</h1>
+						)}
 					</div>
 				</div>
 			</DrawerModal>
