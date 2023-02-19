@@ -2,6 +2,7 @@ import { Button, Input } from 'antd';
 import React from 'react';
 import { AiOutlineArrowLeft } from 'react-icons/ai';
 import { GrClose } from 'react-icons/gr';
+import CardMessage from '../molecules/CardMessage';
 
 export default function InnerChat({ isShow, onClickBack, onClickClose }) {
 	return (
@@ -19,7 +20,13 @@ export default function InnerChat({ isShow, onClickBack, onClickClose }) {
 						<GrClose />
 					</div>
 				</div>
-				<div className='chat-section flex-1'></div>
+				<div className='chat-section flex-1'>
+					<CardMessage sender='me' />
+					<CardMessage sender='he' />
+					<CardMessage sender='me' />
+					<CardMessage sender='me' />
+					<CardMessage sender='he' />
+				</div>
 				<div className='chat-message flex gap-4'>
 					<Input placeholder='Type a new message' />
 					<Button type='primary' className='bg-blue-500'>

@@ -4,7 +4,7 @@ import DrawerModal from '../molecules/DrawerModal';
 import { BiSearch } from 'react-icons/bi';
 import { getListChatAPI } from '../../services/api';
 import CardChat from '../molecules/CardChat';
-import InnerChat from '../molecules/InnerChat';
+import InnerChat from './InnerChat';
 
 export default function MenuInbox() {
 	const [isOpen, setIsOpen] = useState(false);
