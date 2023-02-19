@@ -1,10 +1,20 @@
 import { Input } from 'antd';
-import React, { useState } from 'react';
+import React, { useLayoutEffect, useState } from 'react';
 import DrawerModal from '../molecules/DrawerModal';
 import { BiSearch } from 'react-icons/bi';
+import { getListChatAPI } from '../../services/api';
 
 export default function MenuInbox() {
 	const [isOpen, setIsOpen] = useState(false);
+
+	useLayoutEffect(() => {
+		getListChat();
+	});
+
+	const getListChat = async () => {
+		const resp = await getListChatAPI();
+		console.log('RESPONSE +> ', resp);
+	};
 
 	return (
 		<>
