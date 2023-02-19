@@ -21,6 +21,9 @@ export default function DrawerModal({ isOpen, onClose, children }) {
 			headerStyle={{
 				display: 'none',
 			}}
+			footerStyle={{
+				display: 'none',
+			}}
 		>
 			{children}
 		</Drawer>
