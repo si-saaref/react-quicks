@@ -8,12 +8,12 @@ export default function MainPage() {
 			<div>
 				<h1>I Love You</h1>
 				<SpeedDial>
-					<Button type='primary' shape='circle' size='large'>
-						Task
-					</Button>
-					<Button type='primary' shape='circle' size='large'>
+					<button type='primary' shape='circle' size='large' className='m-btn bg-white text-black'>
+						A
+					</button>
+					<button type='primary' shape='circle' size='large' className='m-btn bg-white text-black'>
 						Chats
-					</Button>
+					</button>
 				</SpeedDial>
 			</div>
 		</>
