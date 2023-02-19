@@ -1,3 +1,4 @@
+import { Button, Input } from 'antd';
 import React from 'react';
 import { AiOutlineArrowLeft } from 'react-icons/ai';
 import { GrClose } from 'react-icons/gr';
@@ -5,8 +6,8 @@ import { GrClose } from 'react-icons/gr';
 export default function InnerChat({ isShow, onClickBack, onClickClose }) {
 	return (
 		<>
-			<div className={`${isShow ? 'block' : 'hidden'}`}>
-				<div className='inner-chat-header flex items-center justify-between p-1 border-b-2'>
+			<div className={`${isShow ? 'flex' : 'hidden'} flex-col h-full p-2`}>
+				<div className='chat-header flex items-center justify-between p-1 border-b-2'>
 					<div className='py-2 px-4 cursor-pointer' onClick={onClickBack}>
 						<AiOutlineArrowLeft />
 					</div>
@@ -17,6 +18,13 @@ export default function InnerChat({ isShow, onClickBack, onClickClose }) {
 					<div className='py-2 px-4 cursor-pointer' onClick={onClickClose}>
 						<GrClose />
 					</div>
+				</div>
+				<div className='chat-section flex-1'></div>
+				<div className='chat-message flex gap-4'>
+					<Input placeholder='Type a new message' />
+					<Button type='primary' className='bg-blue-500'>
+						Send
+					</Button>
 				</div>
 			</div>
 		</>
