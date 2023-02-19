@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function CardChat({ title, body, date, img, onClick }) {
 	return (
-		<div className='flex gap-3 p-2 min-h-[80px]'>
+		<div className='flex gap-3 p-2 min-h-[80px]' onClick={onClick}>
 			<div className=''>
 				{/* <div className='h-10 w-10 bg-blue-400 text-white rounded-full'></div> */}
 				<div className=''>

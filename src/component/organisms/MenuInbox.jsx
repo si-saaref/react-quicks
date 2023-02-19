@@ -4,9 +4,11 @@ import DrawerModal from '../molecules/DrawerModal';
 import { BiSearch } from 'react-icons/bi';
 import { getListChatAPI } from '../../services/api';
 import CardChat from '../molecules/CardChat';
+import InnerChat from '../molecules/InnerChat';
 
 export default function MenuInbox() {
 	const [isOpen, setIsOpen] = useState(false);
+	const [isOpenInner, setIsOpenInner] = useState(false);
 	const [data, setData] = useState([]);
 
 	useEffect(() => {
@@ -25,6 +27,11 @@ export default function MenuInbox() {
 		}
 	};
 
+	const handleShowInChat = (id) => {
+		setIsOpenInner((prevStae) => !prevStae);
+		console.log('AYAM GORENG', id);
+	};
+
 	return (
 		<>
 			<button
@@ -37,7 +44,7 @@ export default function MenuInbox() {
 				Inbox
 			</button>
 			<DrawerModal onClose={() => setIsOpen((prevStae) => !prevStae)} isOpen={isOpen}>
-				<div className='flex flex-col h-full p-2 gap-5 relative'>
+				<div className={`${isOpenInner ? 'hidden' : 'flex'} flex-col p-2 gap-5 relative`}>
 					<div className='search-wrapper w-full sticky top-2 right-0'>
 						<Input
 							placeholder='Search'
@@ -58,6 +65,7 @@ export default function MenuInbox() {
 									date={item.publishDate}
 									key={idx + 1}
 									img={item.owner.picture}
+									onClick={() => handleShowInChat(item.id)}
 								/>
 							))
 						) : (
@@ -65,6 +73,7 @@ export default function MenuInbox() {
 						)}
 					</div>
 				</div>
+				<InnerChat isShow={isOpenInner} onClick={() => setIsOpenInner((prevState) => !prevState)} />
 			</DrawerModal>
 		</>
 	);

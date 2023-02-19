@@ -17,6 +17,7 @@ export default function DrawerModal({ isOpen, onClose, children }) {
 				top: '10vh',
 				right: '5vh',
 				width: '40vw',
+				borderRadius: '5px',
 			}}
 			headerStyle={{
 				display: 'none',
