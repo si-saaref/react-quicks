@@ -1,5 +1,5 @@
-import { Drawer } from 'antd';
 import React, { useState } from 'react';
+import DrawerModal from '../molecules/DrawerModal';
 
 export default function MenuInbox() {
 	const [isOpen, setIsOpen] = useState(false);
@@ -15,29 +15,11 @@ export default function MenuInbox() {
 			>
 				Inbox
 			</button>
-			<Drawer
-				placement='right'
-				onClose={() => setIsOpen((prevStae) => !prevStae)}
-				open={isOpen}
-				closeIcon={false}
-				className='text-black'
-				bodyStyle={{
-					padding: '0',
-				}}
-				contentWrapperStyle={{
-					height: '70vh',
-					top: '10vh',
-					right: '5vh',
-					width: '40vw',
-				}}
-				headerStyle={{
-					display: 'none',
-				}}
-			>
+			<DrawerModal onClose={() => setIsOpen((prevStae) => !prevStae)} isOpen={isOpen}>
 				<div className='flex justify-center items-center h-full'>
 					<h1>MENU Inbox</h1>
 				</div>
-			</Drawer>
+			</DrawerModal>
 		</>
 	);
 }
