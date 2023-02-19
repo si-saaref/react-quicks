@@ -73,7 +73,14 @@ export default function MenuInbox() {
 						)}
 					</div>
 				</div>
-				<InnerChat isShow={isOpenInner} onClick={() => setIsOpenInner((prevState) => !prevState)} />
+				<InnerChat
+					isShow={isOpenInner}
+					onClickBack={() => setIsOpenInner((prevState) => !prevState)}
+					onClickClose={() => {
+						setIsOpen((prevState) => !prevState);
+						setIsOpenInner(false);
+					}}
+				/>
 			</DrawerModal>
 		</>
 	);
