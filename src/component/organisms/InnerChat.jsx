@@ -8,7 +8,7 @@ export default function InnerChat({ isShow, onClickBack, onClickClose }) {
 	return (
 		<>
 			<div className={`${isShow ? 'flex' : 'hidden'} flex-col h-full p-2`}>
-				<div className='chat-header flex items-center justify-between p-1 border-b-2'>
+				<div className='chat-header flex items-center justify-between p-1 border-b-2 sticky top-0 bg-white'>
 					<div className='py-2 px-4 cursor-pointer' onClick={onClickBack}>
 						<AiOutlineArrowLeft />
 					</div>
@@ -27,7 +27,7 @@ export default function InnerChat({ isShow, onClickBack, onClickClose }) {
 					<CardMessage sender='me' />
 					<CardMessage sender='he' />
 				</div>
-				<div className='chat-message flex gap-4'>
+				<div className='chat-message flex gap-4 sticky bg-white bottom-0 px-2 py-4'>
 					<Input placeholder='Type a new message' />
 					<Button type='primary' className='bg-blue-500'>
 						Send
