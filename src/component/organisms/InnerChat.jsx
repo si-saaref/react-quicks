@@ -8,6 +8,7 @@ import CardMessage from '../molecules/CardMessage';
 export default function InnerChat({ isShow, onClickBack, onClickClose, messageOwner }) {
 	const [messageVal, setMessageVal] = useState('');
 	const [listMessage, setListMessage] = useState([]);
+	const [idMessageBot, setIdMessageBot] = useState();
 
 	useLayoutEffect(() => {
 		const chat = loadHistoryChat();
@@ -17,24 +18,23 @@ export default function InnerChat({ isShow, onClickBack, onClickClose, messageOw
 	const loadHistoryChat = () => {
 		const chat =
 			JSON.parse(localStorage.getItem(`message-${messageOwner.idMessage}`))?.listMessage ||
-			handleLoadBotMessage(1);
+			handleLoadBotMessage(1, messageOwner.name);
 		console.log(chat);
 		return chat;
 	};
 
-	const handleLoadBotMessage = (id) => {
+	const handleLoadBotMessage = (id, senderName, messageValue = '') => {
 		const historyChat =
 			JSON.parse(localStorage.getItem(`message-${messageOwner.idMessage}`))?.listMessage ?? [];
-		const chat = messageBot({ indexChat: id });
-		if (listMessage.length === 0) {
-			const dataChat = {
-				id: messageOwner.idMessage,
-				name: messageOwner.name,
-				listMessage: chat,
-			};
-			localStorage.setItem(`message-${messageOwner.idMessage}`, JSON.stringify(dataChat));
-			setListMessage(chat);
-		}
+		const chat = messageBot({ indexChat: id, messageValue, sender: senderName });
+		historyChat.push(chat);
+		const dataChat = {
+			id: messageOwner.idMessage,
+			name: messageOwner.name,
+			listMessage: historyChat,
+		};
+		localStorage.setItem(`message-${messageOwner.idMessage}`, JSON.stringify(dataChat));
+		setListMessage(historyChat);
 		console.log(historyChat, chat);
 		return chat;
 	};
@@ -45,7 +45,7 @@ export default function InnerChat({ isShow, onClickBack, onClickClose, messageOw
 			sender: 'me',
 			time: Date.now(),
 		};
-		let dataListMessage = [...loadHistoryChat().listMessage];
+		let dataListMessage = [...loadHistoryChat()];
 		dataListMessage.push(dataMessage);
 		const dataChat = {
 			id: messageOwner.idMessage,
@@ -55,6 +55,7 @@ export default function InnerChat({ isShow, onClickBack, onClickClose, messageOw
 		localStorage.setItem(`message-${messageOwner.idMessage}`, JSON.stringify(dataChat));
 		setListMessage(dataListMessage);
 		setMessageVal('');
+		handleLoadBotMessage(2, messageOwner.name, messageVal);
 	};
 
 	return (
