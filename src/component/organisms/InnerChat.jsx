@@ -1,10 +1,41 @@
 import { Button, Input } from 'antd';
-import React from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { AiOutlineArrowLeft } from 'react-icons/ai';
 import { GrClose } from 'react-icons/gr';
 import CardMessage from '../molecules/CardMessage';
 
-export default function InnerChat({ isShow, onClickBack, onClickClose }) {
+export default function InnerChat({ isShow, onClickBack, onClickClose, messageOwner }) {
+	const [messageVal, setMessageVal] = useState('');
+	const [listMessage, setListMessage] = useState([]);
+
+	useLayoutEffect(() => {
+		const chat = loadHistoryChat();
+		setListMessage(chat.listMessage);
+	}, []);
+
+	const loadHistoryChat = () => {
+		const chat = JSON.parse(localStorage.getItem(`message-${messageOwner.idMessage}`)) || {};
+		return chat;
+	};
+
+	const handleSendMessage = () => {
+		const dataMessage = {
+			text: messageVal,
+			sender: 'me',
+			time: Date.now(),
+		};
+		let dataListMessage = [...loadHistoryChat().listMessage];
+		dataListMessage.push(dataMessage);
+		const dataChat = {
+			id: messageOwner.idMessage,
+			name: messageOwner.name,
+			listMessage: dataListMessage,
+		};
+		localStorage.setItem(`message-${messageOwner.idMessage}`, JSON.stringify(dataChat));
+		setListMessage(dataListMessage);
+		setMessageVal('');
+	};
+
 	return (
 		<>
 			<div className={`${isShow ? 'flex' : 'hidden'} flex-col h-full p-2`}>
@@ -21,15 +52,17 @@ export default function InnerChat({ isShow, onClickBack, onClickClose }) {
 					</div>
 				</div>
 				<div className='chat-section flex-1'>
-					<CardMessage sender='me' />
-					<CardMessage sender='he' />
-					<CardMessage sender='me' />
-					<CardMessage sender='me' />
-					<CardMessage sender='he' />
+					{listMessage.map((message, idx) => (
+						<CardMessage sender={message.sender} key={idx + 1} text={message.text} />
+					))}
 				</div>
 				<div className='chat-message flex gap-4 sticky bg-white bottom-0 px-2 py-4'>
-					<Input placeholder='Type a new message' />
-					<Button type='primary' className='bg-blue-500'>
+					<Input
+						placeholder='Type a new message'
+						value={messageVal}
+						onChange={(e) => setMessageVal(e.target.value)}
+					/>
+					<Button type='primary' className='bg-blue-500' onClick={handleSendMessage}>
 						Send
 					</Button>
 				</div>
