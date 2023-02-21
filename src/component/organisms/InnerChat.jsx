@@ -1,7 +1,8 @@
 import { Button, Input } from 'antd';
-import React, { useEffect, useLayoutEffect, useState } from 'react';
+import React, { useLayoutEffect, useState } from 'react';
 import { AiOutlineArrowLeft } from 'react-icons/ai';
 import { GrClose } from 'react-icons/gr';
+import { messageBot } from '../../utils/messageBot';
 import CardMessage from '../molecules/CardMessage';
 
 export default function InnerChat({ isShow, onClickBack, onClickClose, messageOwner }) {
@@ -10,11 +11,14 @@ export default function InnerChat({ isShow, onClickBack, onClickClose, messageOw
 
 	useLayoutEffect(() => {
 		const chat = loadHistoryChat();
-		setListMessage(chat.listMessage);
+		setListMessage(chat);
 	}, []);
 
 	const loadHistoryChat = () => {
-		const chat = JSON.parse(localStorage.getItem(`message-${messageOwner.idMessage}`)) || {};
+		const chat =
+			JSON.parse(localStorage.getItem(`message-${messageOwner.idMessage}`))?.listMessage ||
+			messageBot({ indexChat: 1 });
+		console.log(chat);
 		return chat;
 	};
 
