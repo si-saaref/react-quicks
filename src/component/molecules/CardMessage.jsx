@@ -10,7 +10,7 @@ export default function CardMessage({ text, sender, time }) {
 				<div className={`flex gap-2 ${sender === 'me' ? 'flex-row-reverse' : ''}`}>
 					<div className='bg-purple-200 p-1 rounded-md'>
 						<p className=''>{text}</p>
-						<p className='text-xs'>19.32</p>
+						<p className='text-xs'>{time}</p>
 					</div>
 					<div className='inline-flex h-fit bg-transparent p-0 m-0'>...</div>
 				</div>

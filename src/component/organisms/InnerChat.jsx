@@ -17,8 +17,25 @@ export default function InnerChat({ isShow, onClickBack, onClickClose, messageOw
 	const loadHistoryChat = () => {
 		const chat =
 			JSON.parse(localStorage.getItem(`message-${messageOwner.idMessage}`))?.listMessage ||
-			messageBot({ indexChat: 1 });
+			handleLoadBotMessage(1);
 		console.log(chat);
+		return chat;
+	};
+
+	const handleLoadBotMessage = (id) => {
+		const historyChat =
+			JSON.parse(localStorage.getItem(`message-${messageOwner.idMessage}`))?.listMessage ?? [];
+		const chat = messageBot({ indexChat: id });
+		if (listMessage.length === 0) {
+			const dataChat = {
+				id: messageOwner.idMessage,
+				name: messageOwner.name,
+				listMessage: chat,
+			};
+			localStorage.setItem(`message-${messageOwner.idMessage}`, JSON.stringify(dataChat));
+			setListMessage(chat);
+		}
+		console.log(historyChat, chat);
 		return chat;
 	};
 
@@ -56,9 +73,16 @@ export default function InnerChat({ isShow, onClickBack, onClickClose, messageOw
 					</div>
 				</div>
 				<div className='chat-section flex-1'>
-					{listMessage.map((message, idx) => (
-						<CardMessage sender={message.sender} key={idx + 1} text={message.text} />
-					))}
+					{listMessage.map((message, idx) => {
+						const time = new Date(message.time).toLocaleTimeString('id-ID', {
+							hour: '2-digit',
+							minute: '2-digit',
+						});
+						console.log(message.time, time);
+						return (
+							<CardMessage sender={message.sender} key={idx + 1} text={message.text} time={time} />
+						);
+					})}
 				</div>
 				<div className='chat-message flex gap-4 sticky bg-white bottom-0 px-2 py-4'>
 					<Input
